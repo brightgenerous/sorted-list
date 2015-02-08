@@ -1111,6 +1111,71 @@ public class TreeListTest {
         }
     }
 
+    public static class MethodSubList {
+
+        @Test
+        public void test() throws Exception {
+            // TODO
+        }
+    }
+
+    public static class MethodAdd {
+
+        @Test
+        public void test() throws Exception {
+            TreeList<String> obj = new TreeList<>();
+
+            try {
+                obj.add(null);
+                fail();
+            } catch (UnsupportedOperationException e) {
+                // nop
+            }
+            try {
+                obj.add(0, null);
+                fail();
+            } catch (UnsupportedOperationException e) {
+                // nop
+            }
+        }
+    }
+
+    public static class MethodAddAll {
+
+        @Test
+        public void test() throws Exception {
+            TreeList<String> obj = new TreeList<>();
+
+            try {
+                obj.addAll(null);
+                fail();
+            } catch (UnsupportedOperationException e) {
+                // nop
+            }
+            try {
+                obj.addAll(0, null);
+                fail();
+            } catch (UnsupportedOperationException e) {
+                // nop
+            }
+        }
+    }
+
+    public static class MethodSet {
+
+        @Test
+        public void test() throws Exception {
+            TreeList<String> obj = new TreeList<>();
+
+            try {
+                obj.set(0, null);
+                fail();
+            } catch (UnsupportedOperationException e) {
+                // nop
+            }
+        }
+    }
+
     public static class ICloneable {
 
         @Test
