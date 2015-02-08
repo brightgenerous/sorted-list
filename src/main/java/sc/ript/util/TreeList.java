@@ -12,7 +12,7 @@ import java.util.TreeSet;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class TreeList<T> extends AbstractSortedList<T> implements Serializable {
+public class TreeList<T> extends AbstractSortedList<T> implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 6713717513007107315L;
 
@@ -260,6 +260,17 @@ public class TreeList<T> extends AbstractSortedList<T> implements Serializable {
             set.clear();
         } finally {
             writeLock.unlock();
+        }
+    }
+
+    @Override
+    public TreeList<T> clone() {
+        Lock readLock = setLock.readLock();
+        readLock.lock();
+        try {
+            return new TreeList<>((SortedSet<T>) set.clone());
+        } finally {
+            readLock.unlock();
         }
     }
 

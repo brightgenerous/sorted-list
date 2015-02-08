@@ -1,5 +1,9 @@
 package sc.ript.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -1055,6 +1059,7 @@ public class TreeListTest {
     }
 
     public static class MethodInsertAll {
+
         @Test
         public void test() throws Exception {
             SortedSet<String> arg;
@@ -1103,6 +1108,53 @@ public class TreeListTest {
             assertThat(obj.insertAll(all), is(false));
             assertThat(obj, hasSize(all.size()));
             assertThat(obj, contains(all.toArray()));
+        }
+    }
+
+    public static class ICloneable {
+
+        @Test
+        public void test() throws Exception {
+            SortedSet<String> arg;
+            {
+                arg = new TreeSet<>();
+                int size = Math.max(new Random().nextInt(10), 1);
+                for (int i = 0; i < size; i++) {
+                    arg.add("hoge" + i);
+                }
+            }
+            TreeList<String> obj = new TreeList<>(arg);
+            TreeList<String> clone = obj.clone();
+
+            assertThat(clone, not(sameInstance(obj)));
+            assertThat(clone, contains(obj.toArray()));
+        }
+    }
+
+    public static class ISerializable {
+
+        @Test
+        public void test() throws Exception {
+            SortedSet<String> arg;
+            {
+                arg = new TreeSet<>();
+                int size = Math.max(new Random().nextInt(10), 1);
+                for (int i = 0; i < size; i++) {
+                    arg.add("hoge" + i);
+                }
+            }
+            TreeList<String> obj = new TreeList<>(arg);
+            TreeList<String> copy;
+            {
+                ByteArrayOutputStream bao = new ByteArrayOutputStream();
+                new ObjectOutputStream(bao).writeObject(obj);
+                ObjectInputStream in = new ObjectInputStream(
+                        new ByteArrayInputStream(bao.toByteArray()));
+                copy = (TreeList<String>) in.readObject();
+            }
+
+            assertThat(copy, not(sameInstance(obj)));
+            assertThat(copy, contains(obj.toArray()));
         }
     }
 }

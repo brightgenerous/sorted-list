@@ -39,7 +39,7 @@ assertThat(list, empty());
 ```
 mvn package
 ```
-> target/sorted-list-1.0.0.jar
+> target/sorted-list-1.1.0.jar
 
 ### Run Test
 ```
